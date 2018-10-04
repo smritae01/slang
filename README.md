@@ -10,7 +10,8 @@
 - [Reference](https://github.com/kylestetz/slang#reference)
 - [Examples](https://github.com/kylestetz/slang#examples)
 
-Slang was created to explore implementing a programming language entirely in the browser. Parsing is handled by [Ohm.js](https://github.com/harc/ohm) using a [custom grammar](./slang-grammar.js), the editor uses CodeMirror with a simple syntax definition, and the runtime itself is written in JS using the Web Audio API.
+Slang was created to explore implementing a programming language entirely in the browser.
+Parsing is handled by [Ohm.js](https://github.com/harc/ohm) using a [custom grammar](./slang-grammar.js), the editor uses CodeMirror with a simple syntax definition, and the runtime itself is written in JS using the Web Audio API.
 
 <img src="./screenshot.jpg" />
 
@@ -20,7 +21,7 @@ I've always wanted to write a programming language from scratch, but as someone 
 
 This is not meant to be a great or comprehensive language, but I do hope this project can serve as a roadmap if you'd like to build your own!
 
-You'll notice a distinct lack of in-context error handling, inline docs, helpful UI, etc. Creating a great editor experience was not a goal of this project and it would take a lot of work to get there. I did my best to make it pleasant to use.
+You'll notice a distinct lack of in-context error handling, inline docs, helpful UI, etc. Creating a great editor experience was not a goal of this project and it would take a lot of work to get there. Nonetheless, I did my best to make it pleasant to use.
 
 # How to write Slang
 
@@ -129,11 +130,17 @@ Here are all of the values and how they line up, from slowest to fastest:
 - `64n` - sixty-fourth note (1/64 of a whole note)
 - `64t` - sixty-fourth triplet (3 of these is equal to `32n`)
 
-When creating a rhythm in Slang you can freely mix and match these values. A good rule of thumb is that you should aim for all of your rhythm values to add up to `1n` or multiples of `1n`; for example `4n 4n 4n 4n`, `4n 8n 8n 2n`, and `4n 16t 16t 16t 8n 4t 4t 4t` all add up to `1n`.
+When creating a rhythm in Slang you can freely mix and match these values. 
+A good rule of thumb is that you should aim for all of your rhythm values to add up to `1n` or multiples of `1n`; for example `4n 4n 4n 4n`, `4n 8n 8n 2n`, and `4n 16t 16t 16t 8n 4t 4t 4t` all add up to `1n`.
 
-Sometimes you'll want to pause for a beat without playing a note. This is called a _rest_ in music terminology. Adding `r` in front of any rhythm value will turn it into a rest (and it will appear lighter in color within the Slang editor); for example `4n 4n 4n r4n` will play three quarter notes and then rest for the length of one quarter note.
+Sometimes you'll want to pause for a beat without playing a note. This is called a _rest_ in music terminology. 
+Adding `r` in front of any rhythm value will turn it into a rest (and it will appear lighter in color within the Slang editor); 
+for example `4n 4n 4n r4n` will play three quarter notes and then rest for the length of one quarter note.
 
-In addition to the rhythm notation you can also use **number values**, which correspond to _seconds_. Slang runs at a tempo of 120 beats per minute, which means that a whole note — `1n` — is exactly `2` seconds long. Writing `(rhythm [2])` and `(rhythm [1n])` produce exactly the same rhythm. This is useful in other functions like [`(adsr)`](https://github.com/kylestetz/slang#amp-envelope---adsr-osc-attack-001-decay-0-sustain-1-release-005) where the attack, decay, and release all accept a rhythm value.
+In addition to the rhythm notation you can also use **number values**, which correspond to _seconds_. Slang runs at a tempo of 120 beats per minute, which means that a whole note — `1n` — is exactly `2` seconds long. 
+
+Writing `(rhythm [2])` and `(rhythm [1n])` produce exactly the same rhythm. 
+This is useful in other functions like [`(adsr)`](https://github.com/kylestetz/slang#amp-envelope---adsr-osc-attack-001-decay-0-sustain-1-release-005) where the attack, decay, and release all accept a rhythm value.
 
 ## Syntax
 
@@ -409,9 +416,9 @@ Primitive values:
 
 ---
 
-# Examples
+# Some Examples
 
-A simple synthesizer
+A simple synthesizer:
 ```
 # This is a sound line that establishes a synthesizer called @melody
 @melody (adsr (osc sine) 64n 8n 0)
@@ -419,7 +426,7 @@ A simple synthesizer
 play @melody (rhythm [8n]) (notes [e3 d3 g3 f3])
 ```
 
-A drum machine
+A drum machine:
 ```
 # Drums don't accept any arguments (at the moment!)
 @percussion (drums)
@@ -430,7 +437,7 @@ play @percussion (rhythm [16n r16n 16n 16n]) (notes [6 7 8])
 play @percussion (rhythm [8n]) (notes [0 3 11 0 3 0 3 11])
 ```
 
-A randomized synth & bassline with drums
+A randomized synth & bassline with drums:
 ```
 @synth (adsr (osc saw) 64n)
 	+ (filter lp (random [5..30]))
